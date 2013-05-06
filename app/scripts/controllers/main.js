@@ -11,14 +11,21 @@ angular.module('canIUseMyCssApp')
         var line = lines[x];
         var properties = line.split(";");
         for(var y=0, leng=properties.length; y < leng; y++){
+          var prop = properties[y].trim();
           // go through all properties
-          if((properties[y].indexOf(":") !== -1) && (properties[y].indexOf("}") === -1) && (properties[y].indexOf(".") !== 0) && (properties[y].indexOf("#") !== 0) && (properties[y].indexOf("/") !== 0) && (properties[y].indexOf("*") === -1)){
+          if((prop.indexOf(":") !== -1)
+              && (prop.indexOf("}") === -1)
+              && (prop.indexOf(".") !== 0)
+              && (prop.indexOf("#") !== 0)
+              && (prop.indexOf("/") !== 0)
+              && (prop.indexOf("*") === -1)
+              && (prop.indexOf("-") !== 0)){
             // Only add if it has a : doesnt has a } or . or # or / or ' *'
-            var new_property = properties[y].split(":")[0];
-            if(props.lastIndexOf(new_property) === -1){
+            var new_property = properties[y].split(":")[0].trim();
+            if($scope.properties.lastIndexOf(new_property) === -1){
               // Only add if not in Array
-              $scope.properties.push({value: new_property});
-              console.info("added property: " + new_property);
+              $scope.properties.push(new_property);
+              console.info("added property: '" + new_property + "'");
             }
           }
         }
