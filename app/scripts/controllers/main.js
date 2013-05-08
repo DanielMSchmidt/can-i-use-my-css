@@ -5,7 +5,9 @@ angular.module('canIUseMyCssApp')
     $scope.properties = [];
 
     $scope.addCSS = function(){
+      //TODO: Refactor with underscore js
       var selectors = $scope.cssCode.split("{");
+      var clear_properties = [];
       for(var x=0, len=selectors.length; x < len; x++){
         var selector = selectors[x];
         var properties = selector.split(";");
@@ -20,15 +22,12 @@ angular.module('canIUseMyCssApp')
               && (property.indexOf("*") === -1)
               && (property.indexOf("-") !== 0)){
             // Only add if it has a : doesnt has a } or . or # or / or ' *'
-            var new_property = properties[y].split(":")[0].trim();
-            if($scope.properties.lastIndexOf(new_property) === -1){
-              // Only add if not in Array
-              $scope.properties.push(new_property);
-              console.info("added property: '" + new_property + "'");
-            }
+            clear_properties.push(properties[y].split(":")[0].trim());
           }
         }
       }
+      var unsorted_properties = _.uniq(clear_properties);
+      $scope.properties = _.sortBy(unsorted_properties, function (name) {return name});
       console.info("All the properties are: " + $scope.properties);
     };
 
