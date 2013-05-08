@@ -5,21 +5,20 @@ angular.module('canIUseMyCssApp')
     $scope.properties = [];
 
     $scope.addCSS = function(){
-      var lines = $scope.cssCode.split("{");
-      var props = [];
-      for(var x=0, len=lines.length; x < len; x++){
-        var line = lines[x];
-        var properties = line.split(";");
+      var selectors = $scope.cssCode.split("{");
+      for(var x=0, len=selectors.length; x < len; x++){
+        var selector = selectors[x];
+        var properties = selector.split(";");
         for(var y=0, leng=properties.length; y < leng; y++){
-          var prop = properties[y].trim();
+          var property = properties[y].trim();
           // go through all properties
-          if((prop.indexOf(":") !== -1)
-              && (prop.indexOf("}") === -1)
-              && (prop.indexOf(".") !== 0)
-              && (prop.indexOf("#") !== 0)
-              && (prop.indexOf("/") !== 0)
-              && (prop.indexOf("*") === -1)
-              && (prop.indexOf("-") !== 0)){
+          if((property.indexOf(":") !== -1)
+              && (property.indexOf("}") === -1)
+              && (property.indexOf(".") !== 0)
+              && (property.indexOf("#") !== 0)
+              && (property.indexOf("/") !== 0)
+              && (property.indexOf("*") === -1)
+              && (property.indexOf("-") !== 0)){
             // Only add if it has a : doesnt has a } or . or # or / or ' *'
             var new_property = properties[y].split(":")[0].trim();
             if($scope.properties.lastIndexOf(new_property) === -1){
