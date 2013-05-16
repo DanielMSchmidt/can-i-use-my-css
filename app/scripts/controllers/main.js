@@ -3,6 +3,12 @@
 angular.module('canIUseMyCssApp')
   .controller('PropertyCtrl', function ($scope) {
     $scope.properties = [];
+    $scope.search_done = false;
+    $scope.active;
+
+    $scope.activate = function(property){
+        $scope.active = property;
+    }
 
     $scope.isProperty = function(element){
       // Only a property if it has a : doesnt has a } or . or # or / or ' *'
@@ -29,6 +35,8 @@ angular.module('canIUseMyCssApp')
       var unsorted_properties = _.uniq(clear_properties);
       $scope.properties = _.sortBy(unsorted_properties, function (name) {return name});
       console.info("All the properties are: " + $scope.properties);
+      $scope.active = $scope.properties[0];
+      $scope.search_done = true;
     };
 
   });
