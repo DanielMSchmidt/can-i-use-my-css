@@ -1,17 +1,26 @@
 <div class="hero-unit">
-  <h1>Check one CSS Item</h1>
-  <br />
-
+  <h1>Check my CSS</h1>
   <br />
   <div ng-controller="PropertyCtrl">
     <form ng-submit="addCSS()" class="form-horizontal">
-      <textarea ng-model="cssCode"></textarea>
-      <button type="submit" class="btn btn-primary" >Test CSS</button>
+      <div class="search-{{search_done}}">
+        <textarea ng-model="cssCode"></textarea>
+        <button type="submit" class="btn btn-primary" >Test CSS</button>
+      </div>
     </form>
-    <ul>
-      <li ng-repeat="property in properties">
-        <a target="_blank" href="http://caniuse.com/#search={{property}}">{{property}}</a>
-      </li>
-    </ul>
+    <div class="wrapper">
+      <div class="left small find-{{search_done}}" >
+        <ul>
+          <li ng-repeat="property in properties">
+            <a href="" ng-click="activate(property);">{{property}}</a>
+          </li>
+        </ul>
+      </div>
+      <div class="right big find-{{search_done}}">
+        <h4>{{active}}</h4>
+        <iframe src="http://caniuse.com/#{{active}}" />
+      </div>
+    </div>
+    <div class="clear"></div>
   </div>
 </div>

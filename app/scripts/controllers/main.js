@@ -3,32 +3,40 @@
 angular.module('canIUseMyCssApp')
   .controller('PropertyCtrl', function ($scope) {
     $scope.properties = [];
+    $scope.search_done = false;
+    $scope.active;
 
+    $scope.activate = function(property){
+        $scope.active = property;
+    }
+
+    $scope.isProperty = function(element){
+      // Only a property if it has a : doesnt has a } or . or # or / or ' *'
+      return ((element.indexOf(":") !== -1)
+           && (element.indexOf("}") === -1)
+           && (element.indexOf(".") !== 0)
+           && (element.indexOf("#") !== 0)
+           && (element.indexOf("/") !== 0)
+           && (element.indexOf("*") === -1)
+           && (element.indexOf("-") === -1));
+    }
     $scope.addCSS = function(){
       //TODO: Refactor with underscore js
-      var selectors = $scope.cssCode.split("{");
       var clear_properties = [];
-      for(var x=0, len=selectors.length; x < len; x++){
-        var selector = selectors[x];
-        var properties = selector.split(";");
-        for(var y=0, leng=properties.length; y < leng; y++){
-          var property = properties[y].trim();
+      _.each($scope.cssCode.split("{"), function(selector){
+        _.each(selector.split(";"), function(property){
+          var property = property.trim();
           // go through all properties
-          if((property.indexOf(":") !== -1)
-              && (property.indexOf("}") === -1)
-              && (property.indexOf(".") !== 0)
-              && (property.indexOf("#") !== 0)
-              && (property.indexOf("/") !== 0)
-              && (property.indexOf("*") === -1)
-              && (property.indexOf("-") !== 0)){
-            // Only add if it has a : doesnt has a } or . or # or / or ' *'
-            clear_properties.push(properties[y].split(":")[0].trim());
+          if($scope.isProperty(property)){
+            clear_properties.push(property.split(":")[0].trim());
           }
-        }
-      }
+        });
+      });
       var unsorted_properties = _.uniq(clear_properties);
       $scope.properties = _.sortBy(unsorted_properties, function (name) {return name});
       console.info("All the properties are: " + $scope.properties);
+      $scope.active = $scope.properties[0];
+      $scope.search_done = true;
     };
 
   });
